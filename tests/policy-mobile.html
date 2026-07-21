@@ -19,7 +19,10 @@ try{
   // 1. 375px에서 FAB 노출, 시트는 화면 밖
   log("mobile:fab-visible", cs(fab).display==="flex", cs(fab).display);
   const fr=fab.getBoundingClientRect();
-  log("mobile:fab-small", fr.width<=56&&fr.height<=56, Math.round(fr.width)+"x"+Math.round(fr.height));
+  // 알약형(아이콘+"제출"). 화살표만 있으면 "맨 위로"로 읽히므로 글자가 반드시 있어야 한다.
+  log("mobile:fab-compact", fr.width<=130&&fr.height<=56, Math.round(fr.width)+"x"+Math.round(fr.height));
+  log("mobile:fab-reads-submit", /제출/.test(fab.textContent), fab.textContent.trim());
+  log("mobile:fab-not-arrow", !!fab.querySelector("svg path[d*='21 3']"), "종이비행기 아이콘");
   log("mobile:fab-bottom-right", fr.right>375-40 && fr.bottom>812-90, "r="+Math.round(fr.right)+" b="+Math.round(fr.bottom));
   log("mobile:sheet-hidden", !act.classList.contains("open"));
   const ar=act.getBoundingClientRect();
