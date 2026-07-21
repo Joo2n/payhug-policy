@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>페이허그 선정산 정책서 (내부용)</title>
+  <meta name="description" content="페이허그 선정산 서비스 정책서 — 내부 문서" />
+  <link rel="icon" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="spec.css" />
+</head>
+<body>
+  <div class="internal-bar">내부 문서 — 확정되지 않은 정책이 포함되어 있습니다. 외부 공유 금지</div>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="#/">
+        <img src="assets/logo-payhug-white.png" alt="PayHug" />
+        <span class="brand-suffix">정책서</span>
+      </a>
+      <div class="header-actions">
+        <button id="header-search" class="header-search-pill" aria-label="검색">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <span>정책 제목, 내용</span>
+        </button>
+        <a class="btn-primary" href="https://joo2n.github.io/payhug-support/policy/" target="_blank" rel="noopener">
+          <span class="btn-label"><span class="btn-label-prefix">정책 </span>입력함</span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div id="search-modal" class="search-modal" aria-hidden="true">
+    <div class="modal-panel">
+      <div class="modal-input-row">
+        <input type="search" placeholder="정책 제목, 내용 검색" autocomplete="off" />
+        <button class="modal-cancel" data-close-search>취소</button>
+      </div>
+      <div class="modal-results"></div>
+    </div>
+  </div>
+
+  <main id="app"></main>
+
+  <footer class="site-footer">
+    <div class="wrap" id="footer-info"><!-- app.js 렌더 --></div>
+  </footer>
+
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

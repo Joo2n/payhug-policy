@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head><meta charset="UTF-8"><title>정책서 QA</title></head>
+<body>
+<iframe id="f" src="../index.html" style="width:1280px;height:900px;border:0"></iframe>
+<pre id="out">RUNNING</pre>
+<script>
+const out = [];
+const log = (n, ok, i) => out.push(`${ok ? "PASS" : "FAIL"} ${n}${i ? " — " + i : ""}`);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+async function waitFor(fn, t = 8000, s = 100) {
+  const t0 = Date.now();
+  while (Date.now() - t0 < t) { try { const v = fn(); if (v) return v; } catch (e) {} await sleep(s); }
+  return null;
+}
+(async () => {
+  try {
+    const f = document.getElementById("f");
+    // about:blank 레이스 방지 — contentDocument를 매번 다시 조회
+    await waitFor(() => f.contentDocument && f.contentDocument.querySelector(".hero-search"), 10000);
+    const W = f.contentWindow, D = f.contentDocument;
+
+    // 1. 셸
+    log("shell:internal-bar", !!D.querySelector(".internal-bar"), (D.querySelector(".internal-bar") || {}).textContent);
+    log("shell:noindex", !!D.querySelector('meta[name=robots][content*="noindex"]'));
+    log("shell:sitename", /정책서/.test(D.querySelector(".hero h1").textContent), D.querySelector(".hero h1").textContent);
+    log("shell:not-cs-title", !/고객센터/.test(D.title), D.title);
+    log("shell:intake-link", !!D.querySelector('.header-actions a[href*="payhug-support/policy"]'));
+
+    // 2. 홈 — 문서 9개
+    log("home:cat-rows-9", D.querySelectorAll(".cat-row").length === 9, "개수 " + D.querySelectorAll(".cat-row").length);
+    log("home:feature-2", D.querySelectorAll(".feature-card").length === 2);
+    // 아이콘이 doc 폴백만 쓰이면 문서별 구분이 사라진다
+    const paths = new Set(Array.from(D.querySelectorAll(".cr-visual svg path")).map((p) => p.getAttribute("d")));
+    log("home:icons-distinct", paths.size >= 8, "고유 path " + paths.size);
+
+    // 3. 정책 문서 렌더 — 표·배지
+    W.location.hash = "#/article/conflict";
+    await waitFor(() => D.querySelector(".article-body table"), 6000);
+    log("doc:table", !!D.querySelector(".article-body .tbl-wrap table"));
+    log("doc:table-scrolls", W.getComputedStyle(D.querySelector(".tbl-wrap")).overflowX === "auto");
+    log("doc:level-badge", D.querySelectorAll(".article-body .lv").length > 0, "배지 " + D.querySelectorAll(".article-body .lv").length + "개");
+    log("doc:h2-ids", D.querySelectorAll('.article-body h2[id^="sec-"]').length > 0);
+    log("doc:toc", D.querySelectorAll("#toc a").length > 0, "TOC " + D.querySelectorAll("#toc a").length + "항목");
+    log("doc:contact-is-intake", /정책 입력함/.test((D.querySelector(".contact-box") || {}).textContent || ""));
+
+    // 4. 접수 대장 — 노션 접수분이 실제로 쌓여 보이는지
+    W.location.hash = "#/article/intake";
+    await waitFor(() => D.querySelector(".t-intake"), 6000);
+    const rows = D.querySelectorAll(".t-intake tbody tr");
+    log("intake:rows", rows.length === 4, "행 " + rows.length);
+    log("intake:pi-number", /PI-1/.test(rows[0].textContent), rows[0].children[0].textContent);
+    log("intake:status-badge", !!rows[0].querySelector(".lv"));
+    log("intake:detail-anchor", !!D.querySelector('.article-body h3[id="sec-2-1"]'));
+    log("intake:notion-link", !!D.querySelector('.article-body a[href*="notion.com"]'));
+
+    // 5. 섹션 딥링크 — 대장 표에서 상세로
+    const scrollCalls = [];
+    const orig = W.scrollTo.bind(W);
+    W.scrollTo = function (...a) { scrollCalls.push(a); return orig(...a); };
+    const called = () => scrollCalls.some((a) => {
+      const top = a[0] && typeof a[0] === "object" ? a[0].top : a[1];
+      return typeof top === "number" && top > 50;
+    });
+    D.querySelector('.t-intake a[href*="/sec-2-3"]').click();
+    await waitFor(called, 4000);
+    log("deeplink:hash", W.location.hash.includes("sec-2-3"), W.location.hash);
+    log("deeplink:scroll-called", called(), "호출 " + scrollCalls.length + "회");
+
+    // 6. 검색 — 정책서 본문이 색인되는지
+    D.getElementById("header-search").click();
+    await sleep(250);
+    const inp = D.querySelector("#search-modal input");
+    inp.value = "이체수수료";
+    inp.dispatchEvent(new W.Event("input", { bubbles: true }));
+    await waitFor(() => D.querySelector(".modal-results a"), 5000);
+    log("search:results", !!D.querySelector(".modal-results a"));
+    log("search:highlight", !!D.querySelector(".modal-results em"));
+
+    // 7. 홈 복귀
+    D.querySelector("[data-close-search]").click();
+    W.location.hash = "#/";
+    await waitFor(() => D.querySelector(".hero-search"));
+    log("home:return", !!D.querySelector(".hero-search"));
+  } catch (e) {
+    out.push("FAIL runner:exception — " + e.message);
+  }
+  const fails = out.filter((l) => l.startsWith("FAIL")).length;
+  document.getElementById("out").textContent = out.join("\n") + `\nDONE ${fails} FAILS`;
+  document.title = `QA_DONE_${fails}`;
+})();
+</script>
+</body>
+</html>

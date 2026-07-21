@@ -1,0 +1,107 @@
+/* 정책서 전용 — 고객센터 style.css 위에 얹는다.
+   고객센터에 없는 요소(내부 배너, 상태 배지, 표)만 정의한다. */
+
+.internal-bar {
+  background: #7f1d1d;
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  text-align: center;
+  padding: 7px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 60;
+}
+/* 헤더가 내부 배너 아래에 붙도록 — 고객센터는 top:0 고정이라 여기서만 밀어준다 */
+.site-header { top: 31px; }
+.article-nav { top: calc(31px + var(--header-h, 60px) + 48px); }
+.toc-wrap { top: calc(31px + var(--header-h, 60px) + 48px); }
+
+/* 확정 수준 배지 — 정책서의 핵심 표기. 값 자체보다 이 배지가 먼저 읽혀야 한다. */
+.lv {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 5px;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+  vertical-align: 1px;
+}
+.lv-ok   { background: #dcfce7; color: #166534; }
+.lv-hyp  { background: #fef3c7; color: #92400e; }
+.lv-todo { background: #fee2e2; color: #991b1b; }
+
+/* 표 — 정책 문서는 표 비중이 높다. 좁은 화면에서 표만 가로 스크롤. */
+.tbl-wrap {
+  overflow-x: auto;
+  margin: 20px 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  -webkit-overflow-scrolling: touch;
+}
+.tbl-wrap table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 480px;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.tbl-wrap th,
+.tbl-wrap td {
+  padding: 10px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+.tbl-wrap thead th {
+  background: var(--fill-light, rgba(0, 0, 0, 0.04));
+  font-weight: 700;
+  font-size: 13.5px;
+  white-space: nowrap;
+}
+.tbl-wrap tbody tr:last-child th,
+.tbl-wrap tbody tr:last-child td { border-bottom: 0; }
+/* 접수 대장 — 6열이라 기본 min-width로는 제목이 글자 단위로 접힌다 */
+.t-intake { min-width: 760px; }
+.t-intake td:nth-child(2) { min-width: 260px; }
+.t-intake td:nth-child(1),
+.t-intake td:nth-child(3),
+.t-intake td:nth-child(4),
+.t-intake td:nth-child(5),
+.t-intake td:nth-child(6) { white-space: nowrap; }
+
+/* 상세 카드처럼 쓰는 2열 표 (th가 좌측 라벨) */
+.tbl-wrap tbody th {
+  width: 130px;
+  white-space: nowrap;
+  color: var(--text-sub);
+  font-weight: 500;
+  background: var(--fill-light, rgba(0, 0, 0, 0.02));
+}
+
+.article-body code {
+  background: var(--fill-light, rgba(0, 0, 0, 0.05));
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.article-body pre {
+  background: #1c1c1c;
+  color: #e8e8e8;
+  padding: 16px 18px;
+  border-radius: 10px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 20px 0;
+}
+.article-body pre code { background: none; padding: 0; color: inherit; font-size: inherit; }
+.article-body hr { border: 0; border-top: 1px solid var(--line); margin: 34px 0; }
+
+@media (max-width: 720px) {
+  .internal-bar { font-size: 11.5px; padding: 6px 12px; }
+}
