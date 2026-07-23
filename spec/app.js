@@ -278,14 +278,14 @@
   }
 
   function contactBox() {
+    // 정책서는 '보는 곳'이다 — 입력함으로 유도하지 않는다.
     return `
       <div class="contact-box">
         <div>
-          <div class="cb-title">이 문서에 고칠 내용이 있나요?</div>
-          <div class="cb-sub">확정·변경된 정책은 정책 입력함으로 제출해 주세요. 검토 후 이 문서와 고객센터에 함께 반영됩니다.</div>
+          <div class="cb-title">이 문서는 어떻게 만들어지나요</div>
+          <div class="cb-sub">payhug-spec 정책 문서와 접수된 정책을 정리해 자동으로 생성됩니다. 내용에 대한 문의는 이메일로 주세요.</div>
         </div>
         <div class="cb-actions">
-          <a class="btn-primary" href="${SITE.inquiryUrl}" target="_blank" rel="noopener">${ICONS.chat} 정책 입력함 열기</a>
           <a class="btn-link" href="mailto:${SITE.contactEmail}">${ICONS.mail} ${SITE.contactEmail}</a>
         </div>
       </div>`;
@@ -298,8 +298,6 @@
       <div class="f-brand">${esc(c.name)}</div>
       ${c.lines.map((l) => `<p>${esc(l)}</p>`).join("")}
       <div class="f-links">
-        <a href="${SITE.inquiryUrl}" target="_blank" rel="noopener">정책 입력함</a>
-        <a href="https://joo2n.github.io/payhug-support/" target="_blank" rel="noopener">고객센터</a>
         <a href="mailto:${SITE.contactEmail}">이메일 문의</a>
       </div>
       <p style="margin-top:14px">© ${new Date().getFullYear()} ${esc(c.copyright)}. All rights reserved.</p>`;
