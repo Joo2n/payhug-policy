@@ -25,7 +25,8 @@ async function waitFor(fn, t = 8000, s = 100) {
     log("shell:noindex", !!D.querySelector('meta[name=robots][content*="noindex"]'));
     log("shell:sitename", /정책서/.test(D.querySelector(".hero h1").textContent), D.querySelector(".hero h1").textContent);
     log("shell:not-cs-title", !/고객센터/.test(D.title), D.title);
-    log("shell:intake-link", !!D.querySelector('.header-actions a[href*="payhug-support/policy"]'));
+    // 정책서는 고객센터(payhug-support)와 별개 페이지 — 그쪽으로 가는 링크가 없어야 한다
+    log("shell:no-support-link", !D.querySelector('a[href*="payhug-support"]'), "support 링크 " + D.querySelectorAll('a[href*="payhug-support"]').length + "개");
 
     // 2. 홈 — 문서 9개
     log("home:cat-rows-9", D.querySelectorAll(".cat-row").length === 9, "개수 " + D.querySelectorAll(".cat-row").length);

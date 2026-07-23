@@ -6,7 +6,7 @@ const SITE = {
   tagline: "페이허그 선정산 서비스 정책서 (내부용)",
   homepage: "https://payhug.io",
   contactEmail: "support@payhug.io",
-  inquiryUrl: "https://joo2n.github.io/payhug-support/policy/",
+  inquiryUrl: "../intake/",
   company: {
     name: "주식회사 페이허그",
     copyright: "주식회사 페이허그",

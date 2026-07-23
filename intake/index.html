@@ -165,12 +165,12 @@ button:disabled{opacity:.4;cursor:not-allowed}
   <span class="tag">정책 입력함 · 내부용</span>
   <span class="sp"></span>
   <a href="../">정책 홈</a>
-        <a href="https://joo2n.github.io/payhug-support/" target="_blank" rel="noopener">고객센터</a>
+  <a href="../spec/">정책서</a>
 </header>
 
 <div class="wrap">
   <h1>정책 입력함</h1>
-  <p class="lead">확정·변경된 정책이나 추가할 QnA를 여기에 적어 제출하면, 고객센터와 정책서에 반영됩니다.
+  <p class="lead">확정·변경된 정책이나 추가할 QnA를 여기에 적어 제출하면, 정리되어 <a href="../spec/">정책서</a>에 반영됩니다.
     노션이 편하면 <a href="https://app.notion.com/p/a43ff18585214319b5d3b5f0d8643fac" target="_blank" rel="noopener">정책 입력함 DB</a>에 직접 써도 됩니다. 어느 쪽이든 같은 항목으로 접수됩니다.</p>
 
   <div class="notice">
@@ -231,7 +231,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
 
     <div class="card">
       <h2>확정 수준</h2>
-      <p class="sub"><b>확정</b>만 고객센터 본문에 실제 값으로 노출됩니다. 나머지는 정책서에만 기록됩니다.</p>
+      <p class="sub"><b>확정</b>만 정책서 본문에 실제 값으로 반영됩니다. 가설·확인 필요는 표시만 남습니다.</p>
       <div class="lv">
         <label><input type="radio" name="level" value="확정" checked>
           <span>확정<small>결정 완료</small></span></label>
@@ -267,7 +267,7 @@ placeholder="예)
       <div class="f">
         <label for="note">기존 내용과 다른 점 <span class="hint">선택</span></label>
         <textarea id="note" name="note" class="sm"
-          placeholder="예) 고객센터에는 '일 1회 300원'으로 적혀 있는데 이게 틀렸습니다."></textarea>
+          placeholder="예) 기존 정책서에는 '일 1회 300원'으로 적혀 있는데 이게 틀렸습니다."></textarea>
       </div>
     </div>
 
@@ -422,7 +422,7 @@ function toMarkdown(d) {
   L.push("");
   L.push("---");
   L.push("");
-  L.push("<!-- payhug-policy-intake v1 · 확정 수준이 '확정'인 항목만 고객센터 본문에 값으로 반영 -->");
+  L.push("<!-- payhug-policy-intake v1 · 확정 수준이 '확정'인 항목만 정책서 본문에 값으로 반영 -->");
   return L.join("\n");
 }
 
