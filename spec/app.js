@@ -278,14 +278,15 @@
   }
 
   function contactBox() {
-    // 정책서는 '보는 곳'이다 — 입력함으로 유도하지 않는다.
+    // 정책서 ↔ 입력함은 같은 프로젝트 안에서 연결한다(고객센터가 아니라 ../intake/).
     return `
       <div class="contact-box">
         <div>
-          <div class="cb-title">이 문서는 어떻게 만들어지나요</div>
-          <div class="cb-sub">payhug-spec 정책 문서와 접수된 정책을 정리해 자동으로 생성됩니다. 내용에 대한 문의는 이메일로 주세요.</div>
+          <div class="cb-title">이 정책서에 반영할 내용이 있나요?</div>
+          <div class="cb-sub">확정·변경된 정책은 정책 입력함에 제출해 주세요. 검토 후 이 문서에 반영됩니다.</div>
         </div>
         <div class="cb-actions">
+          <a class="btn-primary" href="${SITE.inquiryUrl}">${ICONS.chat} 정책 입력함</a>
           <a class="btn-link" href="mailto:${SITE.contactEmail}">${ICONS.mail} ${SITE.contactEmail}</a>
         </div>
       </div>`;
